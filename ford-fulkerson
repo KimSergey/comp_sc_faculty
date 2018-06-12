@@ -1,45 +1,32 @@
-#include <iostream>
-#include <vector>
-using ll = long long;
-using namespace std;
+struct Edge {
+    int from;
+    int to;
+    int capacity;
+    int flow;
+
+    Edge() {}
+    Edge(int _from, int _to, int _capacity = 0, int _flow = 0)
+        : from(_from), to(_to), capacity(_capacity), flow(_flow) {}
+};
 
 struct flowNetwork {
-    struct Edge {
-        int from;
-        int to;
-        int capacity;
-        int flow;
-
-        Edge() {}
-        Edge(int _from, int _to, int _capacity = 0, int _flow = 0) : from(_from), to(_to), capacity(_capacity), flow(_flow) {}
-    };
-
-    struct Graph {
-        int n;
-        vector<Edge> edges;
-        vector< vector<int> > adjLists;
-        Graph() {}
-        Graph(int _n, vector<Edge> _edges) : n(_n), edges(_edges) {
-            adjLists.resize(n);
-            for (auto e : edges) {
-                addEdge(e);
-            }
-        }
-    };
-
-    Graph graph;
+    int n;
     int source;
     int sink;
+    vector<Edge> edges;
+    vector< vector<int> > adjLists;
 
     flowNetwork() {}
-    flowNetwork(int _source, int _sink, Graph _graph) : source(_source), sink(_sink), graph(_graph) {}
+    flowNetwork(int _n, int _source, int _sink) : n(_n), source(_source), sink(_sink) {
+        adjLists.resize(n);
+    }
 
     void addEdge(Edge e) {
-        adjLists[from].push_back(graph.edges.size());
-        graph.edges.push_back(e);
-        Edge e = Edge(to, from, 0);
-        graph.adjLists[to].push_back(graph.edges.size());
-        graph.edges.push_back(e);
+        adjLists[e.from].push_back(edges.size());
+        edges.push_back(e);
+        e = Edge(e.to, e.from, 0);
+        adjLists[e.from].push_back(edges.size());
+        edges.push_back(e);
     }
 
     ll dfs(int u, int minC) {
@@ -47,10 +34,10 @@ struct flowNetwork {
             return minC;
         }
 
-        visited[u] = true;
+        visited[u] = 1;
         for (auto uv : adjLists[u]) {
             if (!visited[edges[uv].to] && edges[uv].flow < edges[uv].capacity) {
-                int delta = dfs(v, min(minC, edges[uv].capacity - edges[uv].flow));
+                int delta = dfs(edges[uv].to, min(minC, edges[uv].capacity - edges[uv].flow));
 
                 if (delta > 0) {
                     edges[uv].flow += delta;
@@ -62,26 +49,4 @@ struct flowNetwork {
 
         return 0;
     }
-}
-
-Graph graph;
-
-int main() {
-    int n;
-    int s;
-    
-    Edge e;
-    flowNetwork network;
-
-    cin >> n >> s;
-
-    for (int j = 0; j < s; ++j) {
-        e = Edge(0, j);
-        network.graph.addEdge
-    }
-    for (int i = 0; i < s; ++i) {
-        for (int j = 0; j < n; ++j) {
-            e = Edge(i, j, 1);
-        }
-    }
-}
+};

@@ -5,7 +5,9 @@
 #include <vector>
 #include <set>
 #include <bitset>
+#include <unordered_set>
 #include <map>
+#include <unordered_map>
 #include <deque>
 #include <string>
 
@@ -31,16 +33,6 @@ int main() {
     cin.tie(nullptr);
     ios_base::sync_with_stdio(false);
 
-    int n;
-    vector<int> nums;
-
-    cin >> n;
-    nums.resize(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> nums[i];
-    }
-    for (auto x : nums) {
-        cout << x << endl;
-    }
+    cout << "Hello world!" << endl;
     return 0;
 }
